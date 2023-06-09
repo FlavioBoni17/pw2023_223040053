@@ -1,155 +1,119 @@
+<?php 
+require "koneksi.php";
+
+$queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM produk LIMIT 8");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tokyo Sport</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy | Home</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <?php require "navbar.php"; ?>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet" />
-
-    <!-- Feather Icon -->
-    <script src="https://unpkg.com/feather-icons"></script>
-
-    <!-- My Style -->
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <!-- Navbar start -->
-    <nav class="navbar">
-      <a href="#home" class="navbar-logo"><span>Tokyo Sport.</span></a>
-
-      <div class="navbar-nav">
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#menu">Brand</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div class="navbar-extra">
-        <!-- <a href="#" id="search"><i data-feather="search"></i></a> -->
-        <a href="login.php" id="log-in"><i data-feather="log-in"></i></a>
-        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
-      </div>
-    </nav>
-    <!-- Navbar end -->
-
-    <!-- Hero Section Start -->
-    <section class="hero" id="home">
-      <main class="content">
-        <h1>Ayo Belanja Di <span>Tokyo Sport</span></h1>
-        <!-- <p>Login sekarang untuk mengetahui dan membeli banyak produk di toko kami dengan harga yang terjangkau dan produk yang original.</p> -->
-        <a href="login.php" class="cta">Login</a>
-      </main>
-    </section>
-    <!-- Hero section end -->
-    <!-- About Section Start -->
-    <section id="about" class="about">
-      <h2><span>About Us</span></h2>
-
-      <div class="row">
-        <div class="about-img">
-          <img src="img/ll.jpg" alt="Tentang Kami" />
+    <!-- banner -->
+    <div class="container-fluid banner d-flex align-items-center">
+        <div class="container text-center text-white">
+            <h1>Flavio Pharmacy</h1>
+            <h3>Toko Kesehatan Terlengkap dan Terpercaya</h3>
+            <div class="col-md-8 offset-md-2">
+                <form  action="produk.php" method="get">
+                <div class="input-group input-group-lg my-4">
+                <input type="text" class="form-control" placeholder="Cari Produk" aria-label="Recipient's username" aria-describedby="basic-addon2" name="keyword">
+                <button type="submit" class="btn warna2 text-white">Telusuri</button>
+            </div>
+                </form>
+            </div>
         </div>
-        <div class="content">
-          <h3>Kenapa Harus Belanja Di Toko Kami?</h3>
-          <p>
-            Tokyo Sport adalah toko retail yang menyediakan berbagai macam produk olahraga, mulai dari pakaian, sepatu, aksesoris, hingga alat olahraga. Di Tokyo Sport, tersedia berbagai macam produk olahraga yang dapat dipilih sesuai dengan kebutuhan dan aktivitas olahraga yang diinginkan. Tokyo Sport juga telah menyediakan berbagai produk olahraga terbaik dengan harga yang terjangkau. <p>Temukan berbagai macam perlengkapan & peralatan olahraga terlengkap dan kualitas terbaik dengan aman, dan mudah! Produk olahraga yang tersedia di Tokyo Sport didesain dengan bahan-bahan berkualitas & tahan lama. Rasakan pengalaman berbelanja dengan mudah dan aman hanya di Tokyo Sport.</p>
-          </p>
+    </div>
+    <!-- end banner -->
+
+    <!-- highligted kategori -->
+    <div class="container-fluid py-5">
+        <div class="container text-center">
+            <h3>Kategori</h3>
+            <div class="row mt-5">
+                <div class="col-md-4 mb-3">
+                    <div class="highligted-kategori kategori-medical-devices d-flex justify-content-center align-items-center">
+                        <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=medical-devices">Alat Kesehatan</a></h4>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="highligted-kategori kategori-body-care d-flex justify-content-center align-items-center">
+                        <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=body-care">Perawatan Tubuh</a></h4>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="highligted-kategori kategori-suplemen d-flex justify-content-center align-items-center">
+                        <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=suplemen">Vitamin & Suplemen</a></h4>
+                    </div>
+                </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="highligted-kategori kategori-herbal d-flex justify-content-center align-items-center">
+                            <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=herbal">Herbal</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="highligted-kategori kategori-ibu d-flex justify-content-center align-items-center">
+                            <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=ibu">Ibu & Anak</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="highligted-kategori kategori-obat d-flex justify-content-center align-items-center">
+                            <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=obat">Obat & Perawatan</a></h4>
+                        </div>
+                    </div>
+            </div>
         </div>
-      </div>
-    </section>
-    <!-- About Section End -->
+    </div>
 
-    <!-- Menu Section Start -->
-    <section id="menu" class="menu">
-      <h2><span>Our  Brand Best Selling</span></h2>
-      <p>Toko kami telah tersedia dengan brand - brand ternama semacam, nike, adidas, ortuseight, dan specs.</p>
-
-      <div class="row">
-        <div class="menu-card">
-          <img src="img/nke.png" alt="Original" class="menu-card-img" />
-          <h3 class="menu-card-title">- NIKE-</h3>
-          <!-- <p class="manu-card-price">IDR 5K</p> -->
+    <!-- tentang kami -->
+    <div class="container-fluid warna2 py-5">
+        <div class="container text-center">
+            <h3>Tentang Kami</h3>
+            <p>Kenapa harus beli obat secara Online?</p>
+            <p>Saat ini sudah banyak dan menjamur pembelian produk secara online. Dengan teknologi yang semakin maju, banyak industri yang menghadirkan aplikasi beli barang yang diinginkan dan dibutuhkan secara online. Masyarakat dimudahkan dengan cara pembelian secara online. Customer hanya perlu smartphone, selanjutnya pilih produk yang diinginkan dan barang pilihannya akan dikirimkan ke alamat sesuai yang diinginkan.</p>
+            <p>Tidak hanya produk seperti baju, makanan, transportasi atau kebutuhan lainnya, saat ini Obatpun juga bisa dibeli secara online. Aplikasi Beli Obat secara online, seharusnya tidak asing didengar. Aplikasi beli obat obat secara online menghadirkan kemudahan yang dapat menguntungkan customer atau pasien disaat mereka membutuhkan obat, maupun kebutuhan kesehatan lainnya. Apalagi, disaat kondisi virus Covid-19 yang mulai meluas yang menyebabkan masyrakat mulai mengurangi bertemu dengan orang dan ditambah lagi dibeberapa daerah yang mengalami PSBB, aplikasi beli obat online adalah salah satu solusi yang tepat untuk masyarakat mendapatkan obat yang diinginkan. Tidak perlu masyarakat harus mendatangi satu apotek ke apotek lain, obat yang diinginkan bisa diterima.</p>
         </div>
-        <div class="menu-card">
-          <img src="img/ad.jpeg" alt="Original" class="menu-card-img" />
-          <h3 class="menu-card-title">- ADIDAS -</h3>
+    </div>
+
+        <!-- produk -->
+    <div class="container-fluid py-5">
+        <div class="container text-center">
+            <h3>Produk Terlaris</h3>
+
+            <div class="row mt-5">
+                <?php while($data = mysqli_fetch_array($queryProduk)) { ?>
+                <div class=" col-sm-6 col-md-3 mb-3">
+                        <div class="card h-100">
+                            <!-- <div class="image-box"> -->
+                                <img src="img/<?= $data['foto']; ?>" class="card-img-top" alt="...">
+                            <!-- </div> -->
+                            <div class="card-body">
+                                <h4 class="card-title"><?= $data['nama']; ?></h4>
+                                <p class="card-text text-truncate"><?= $data['detail']; ?>.</p>
+                                <p class="card-text text-harga">Rp <?= $data['harga']; ?></p>
+                                <a href="produk-detail.php?nama=<?= $data['nama']; ?>" class="btn warna2 text-white">Lihat Detail</a>
+                            </div>
+                        </div>
+                </div>
+                <?php } ?>
+            </div>
+            <a href="produk.php" class="btn btn-outline-success mt-3">See More</a>
         </div>
-        <div class="menu-card">
-          <img src="img/or.jpg" alt="Original" class="menu-card-img" />
-          <h3 class="menu-card-title">- ORTUSEIGHT -</h3>
-        </div>
-        <div class="menu-card">
-          <img src="img/specs.png" alt="Original" class="menu-card-img" />
-          <h3 class="menu-card-title">- SPECS-</h3>
-        </div>
-      </div>
-    </section>
-    <!-- Menu Section End -->
+    </div>
 
-    <!-- Contact Section Start -->
-    <section id="contact" class="contact">
-      <h2><span>Contact Us</span></h2>
-      <p>Sebagai penikmat olahraga khususnya sepak bola dan futsal, kami memiliki jawaban untuk semua pertanyaan Anda. Kami berkomitmen untuk memberikan saran dan pengalaman terbaik tentang produk dan layanan yang ditawarkan oleh Tokyo Sport. Hubungi kami, kami ingin mengerti sepatu favorit Anda dan mungkin saja, membantu Anda menemukan sesuatu yang baru !</p>
+    <!-- footer -->
+    <?php require "footer.php" ?>
 
-      <div class="row">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.565496225866!2d107.81393571468698!3d-6.449787095333802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6939dc0a00f609%3A0xb4eef25d1dfbe176!2sToko%20Yopie!5e0!3m2!1sid!2sid!4v1676726650320!5m2!1sid!2sid"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          class="map"
-        ></iframe>
-
-        <form action="">
-          <div class="input-grup">
-            <i data-feather="user"></i>
-            <input type="text" placeholder="Nama" />
-          </div>
-          <div class="input-grup">
-            <i data-feather="mail"></i>
-            <input type="text" placeholder="Email" />
-          </div>
-          <div class="input-grup">
-            <i data-feather="phone"></i>
-            <input type="text" placeholder="Phone" />
-          </div>
-          <button type="submit" class="btn">Kirim Pesan</button>
-        </form>
-      </div>
-    </section>
-    <!-- Contact Section End -->
-
-    <!-- Footer start -->
-    <footer>
-      <div class="socials">
-        <a href="https://www.instagram.com/fboni17_"><i data-feather="instagram"></i></a>
-        <a href="#"><i data-feather="twitter"></i></a>
-        <a href="#"><i data-feather="facebook"></i></a>
-      </div>
-
-      <div class="links">
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#menu">Brand</a>
-        <a href="#contact">Contact Us</a>
-      </div>
-
-      <div class="credit">
-        <p>Created by <a href="">flavioboni</a>. | &copy; 2023</p>
-      </div>
-    </footer>
-    <!-- Footer End -->
-    <!-- Feather Icons -->
-    <script>
-      feather.replace();
-    </script>
-
-    <!-- My Javascript -->
-    <script src="js/script.js"></script>
-  </body>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="fontawesome/js/all.min.js"></script>
+</body>
 </html>
