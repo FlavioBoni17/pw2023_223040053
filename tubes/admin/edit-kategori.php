@@ -2,11 +2,10 @@
     require "session.php";
     require "../koneksi.php";
 
-    $queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
-    $jumlahKategori = mysqli_num_rows($queryKategori);
+    $id = $_GET['id'];
 
-    $queryProduk = mysqli_query($conn, "SELECT * FROM produk");
-    $jumlahProduk = mysqli_num_rows($queryProduk);
+$query = mysqli_query($conn, "SELECT * FROM kategori WHERE  id='$id'");
+$data = mysqli_fetch_array($query);
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +13,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pharmacy | Dashboard</title>
+    <title>Pharmacy | Edit Kategori</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -124,59 +123,77 @@
     <div class="container-fluid">
     <div class="row mb-2">
     <div class="col-sm-6">
-    <h1 class="m-0">Dashboard</h1>
+    <h1 class="m-0">Edit Kategori</h1>
     </div>
 
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active" aria-current="page">
-                <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
-                    Home
-                </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Dashboard
-                </li>
-            </ol>
+            <li class="breadcrumb-item active" aria-current="page">
+            <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
+                Home
+            </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Edit Kategori
+            </li>
+        </ol>
     </div>
     </div>
     </div>
     </div>
 
-
-    <section class="content">
     <div class="container">
-    <div class="row">
+    <div class="col-12 col-md-6">
+        <form action="" method="post">
+            <div>
+                <label for="kategori">Kategori</label>
+                <input type="text" name="kategori" id="kategori" class="form-control" value="<?= $data['nama']; ?>">
+            </div>
 
-    <div class="col-lg-4 col-6 p-3">
-    <div class="small-box bg-success">
-    <div class="inner">
-    <h3><?= $jumlahKategori; ?> Kategori</h3>
-    <p>Kategori</p>
-    </div>
-    <div class="icon">
-    <i class="fas fa-align-justify"></i>
-    </div>
-    <a href="kategori.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
-    </div>
-    </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-primary" name="editBtn">Edit</button>
+            </div>
+        </form>
+        
+        <?php
+            if(isset($_POST['editBtn'])){
+                $kategori = htmlspecialchars($_POST['kategori']);
 
-    <div class="col-lg-4 col-6 p-3">
-    <div class="small-box bg-info">
-    <div class="inner">
-    <h3><?= $jumlahProduk; ?> Produk</h3>
-    <p>Produk</p>
-    </div>
-    <div class="icon">
-    <i class="fa fa-box"></i>
-    </div>
-    <a href="produk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
-    </div>
-    </div>
+                if($data['nama']==$kategori) {
+                    ?>
+                        <meta http-equiv="refresh" content="0; url=kategori.php" />
+                    <?php
+                } else {
+                    $query = mysqli_query($conn, "SELECT * FROM kategori WHERE nama='$kategori'");
+                    $jumlahData = mysqli_num_rows($query);
+                    
+                    if($jumlahData > 0) {
+                        ?>
+                        <div class="alert alert-warning mt-2" role="alert">
+                            Kategori Sudah Ada
+                        </div>
+                        <?php
+                    } else {
+                        $queryTambah = mysqli_query($conn, "UPDATE kategori SET nama='$kategori' WHERE id='$id' ");
 
+                        if($queryTambah) {
+                ?>
+                    <div class="alert alert-success mt-2" role="alert">
+                        Kategori Berhasil Terupdate
+                    </div>
+
+                    <meta http-equiv="refresh" content="2; url=kategori.php" />
+                <?php
+                    } else {
+                        echo mysqli_error($conn);
+                    }
+                    }
+                }
+            }
+        ?>
     </div>
     </div>
-    </section>
+    
 
     
 

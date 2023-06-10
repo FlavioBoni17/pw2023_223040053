@@ -1,6 +1,7 @@
 <?php 
 require "session.php";
 require "../koneksi.php";
+require "../functions.php";
 
 $queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
 $jumlahKategori = mysqli_num_rows($queryKategori);
@@ -11,7 +12,7 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kategori | Dashboard</title>
+    <title>Pharmacy | Kategori</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -48,18 +49,7 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <li class="nav-item">
     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
-        <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">
-                <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
-                Home
-                </a>
-            </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Kategori
-                </li>
-        </ol>
-        </nav>
+        
     </ul>
 
     <ul class="navbar-nav ml-auto">
@@ -136,26 +126,100 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     </div>
 
     <div class="col-sm-6">
-    <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active">Dashboard v1</li>
-    </ol>
+        <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active" aria-current="page">
+                <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
+                    Home
+                </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Kategori
+                </li>
+            </ol>
     </div>
     </div>
     </div>
     </div>
 
+    <div class="my-2 col-12 col-md-6">
+        <h3  class="ml-2">Tambah Kategori</h3>
 
-    <div class="table-responsive">
-        <table class="table mt-5">
+        <form action="" method="post">
+            <div>
+                <label for="kategori" class="ml-2">Kategori </label>
+                <input type="text" id="kategori" name="kategori" placeholder="Input Nama Kategori" class="form-control">
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-primary" type="submit" name="tambah_kategori">Tambah Data</button>
+            </div>
+        </form>
+
+        <?php
+            if(isset($_POST['tambah_kategori'])) {
+                $kategori = htmlspecialchars($_POST['kategori']);
+
+                $cek = mysqli_query($conn, "SELECT nama FROM kategori WHERE nama='$kategori' ");
+                $jumlahDataKategoriBaru = mysqli_num_rows($cek);
+                
+                if($jumlahDataKategoriBaru > 0) {
+                ?>
+                    <div class="alert alert-warning mt-2" role="alert">
+                        Kategori Sudah Ada
+                    </div>
+                <?php
+                } else {
+                    $queryTambah = mysqli_query($conn, "INSERT INTO kategori (nama) VALUES ('$kategori')");
+
+                    if($queryTambah) {
+                ?>
+                    <div class="alert alert-success mt-2" role="alert">
+                        Kategori Berhasil Ditambahkan
+                    </div>
+
+                    <meta http-equiv="refresh" content="2; url=kategori.php" />
+                <?php
+                    } else {
+                        echo mysqli_error($conn);
+                    }
+                }
+            }
+        ?>
+
+    </div>
+
+    <div class="table-responsive mt-5">
+        <table class="table">
             <thead>
                 <tr>
                     <th>No.</th>  
                     <th>Nama</th>  
+                    <th>Aksi</th>  
                 </tr>
             </thead>
             <tbody>
                 <?php 
+                    if($jumlahKategori == 0) {
+                ?>
+                    <tr>
+                        <td colspan=3 class="text-center">Data kategori tidak tersedia</td>
+                    </tr>
+                <?php
+                    } else {
+                        $jumlah = 1;
+                        while($data=mysqli_fetch_array($queryKategori)) {
+                ?>
+                        <tr>
+                            <td><?= $jumlah; ?></td>
+                            <td><?= $data['nama']; ?></td>
+                            <td>
+                                <a href="edit-kategori.php?id=<?= $data['id']; ?>"><button class="btn btn-primary">Edit</button></a>
+                                <a href="hapus-kategori.php?id=<?= $data['id']; ?>" onclick="return confirm('Apakah Kamu Yakin?'); "><button class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                <?php
+                        $jumlah++;
+                        }
+                    }
                 ?>
             </tbody>
         </table>
@@ -166,10 +230,10 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     </div>
 
     <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">flavioboni</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-    <b>Version</b> 3.2.0
+    <b>Flavio</b> Boni
     </div>
     </footer>
 

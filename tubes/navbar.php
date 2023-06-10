@@ -15,7 +15,7 @@
             <a class="nav-link me-4" href="produk.php">Produk</a>
             </li>
                 <li class="nav-item">
-                <a class="nav-link me-4" href="produk.php">Produk</a>
+                <a class="nav-link me-4" href="admin/login.php">Login</a>
                 </li>
     
         </ul>
