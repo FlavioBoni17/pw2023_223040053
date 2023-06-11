@@ -24,7 +24,7 @@
 
                     <div class="container-fluid py-3 bg-dark text-light">
                         <div class="container d-flex justify-content-between">
-                            <label>&copy MyPharmacy</label>
+                            <label>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</label>
                             <label>Created by Flavio Boni</label>
                         </div>
                     </div>

@@ -26,7 +26,7 @@ $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM pr
             <div class="col-md-8 offset-md-2">
                 <form  action="produk.php" method="get">
                 <div class="input-group input-group-lg my-4">
-                <input type="text" class="form-control" placeholder="Cari Produk" aria-label="Recipient's username" aria-describedby="basic-addon2" name="keyword">
+                <input type="text" class="form-control" placeholder="Cari Produk" aria-label="Recipient's username" aria-describedby="basic-addon2" name="keyword" autocomplete="off">
                 <button type="submit" class="btn warna2 text-white">Telusuri</button>
             </div>
                 </form>
@@ -62,7 +62,7 @@ $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM pr
                     </div>
                     <div class="col-md-4 mt-3">
                         <div class="highligted-kategori kategori-ibu d-flex justify-content-center align-items-center">
-                            <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=ibu">Ibu & Anak</a></h4>
+                            <h4 class="text-white"><a class="no-decoration" href="produk.php?kategori=ibu-dan-anak">Ibu & Anak</a></h4>
                         </div>
                     </div>
                     <div class="col-md-4 mt-3">

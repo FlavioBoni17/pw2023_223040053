@@ -93,3 +93,11 @@
 .content-subscribe a {
   color: #fff;
 }
+
+.banner-produk {
+  height: 45vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../img/phar.jpg');
+  background-size: cover;
+  background-position: center;
+  background-position: 50% 35%;
+}
