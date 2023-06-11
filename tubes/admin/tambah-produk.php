@@ -1,18 +1,20 @@
 <?php 
-require "session.php";
-require "../koneksi.php";
-require "../functions.php";
+    require "session.php";
+    require "../koneksi.php";
+    require "../functions.php";
 
-$queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
-$jumlahKategori = mysqli_num_rows($queryKategori);
+    $query = mysqli_query($conn, "SELECT * FROM produk");
+    $jumlahProduk = mysqli_num_rows($query);
+
+    $queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
 ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pharmacy | Kategori</title>
+    <title>Pharmacy | Tambah Produk</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -122,70 +124,135 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <div class="container-fluid">
     <div class="row mb-2">
     <div class="col-sm-6">
-    <h1 class="m-0">Halaman Kategori</h1>
+    <h1 class="m-0">Tambah Produk</h1>
     </div>
 
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active" aria-current="page">
-                <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
-                    Home
-                </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Kategori
-                </li>
-            </ol>
+            <li class="breadcrumb-item active" aria-current="page">
+            <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
+                Home
+            </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Tambah Produk
+            </li>
+        </ol>
     </div>
     </div>
     </div>
     </div>
 
-    <div class="my-2 col-12 col-md-6">
-        <h2  class="ml-2">List Kategori</h2>
-
-            <div class="mt-2">
-            <a href="tambah-kategori.php"><button class="btn btn-primary ml-2">Tambah Data</button></a>
+    <div class="container">
+    <div class="col-12 col-md-6">
+        <form action="" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="nama">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" autocomplete="off" required>
+            </div>
+            <div>
+                <label for="kategori">Kategori</label>
+                <select name="kategori" id="kategori" class="form-control" required>
+                <option value="">Pilih Satu</option>
+                    <?php 
+                        while($data=mysqli_fetch_array($queryKategori)) {
+                    ?>
+                        <option value="<?= $data['id']; ?>"><?= $data['nama']; ?></option>
+                    <?php
+                        }
+                    ?>
+                </select>
+            </div>
+            <div>
+                <label for="harga">Harga</label>
+                <input type="number" class="form-control" name="harga" required>
+            </div>
+            <div>
+                <label for="foto">Foto</label>
+                <input type="file" name="foto" id="foto" class="form-control">
+            </div>
+            <div>
+                <label for="detail">Detail</label>
+                <textarea name="detail" id="detail" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <div>
+                <label for="ketersediaan_stok">Ketersediaan Stok</label>
+                <select name="ketersediaan_stok" id="ketersediaan_Stok" class="form-control">
+                        <option value="tersedia">Tersedia</option>
+                        <option value="habis">Habis</option>
+                </select>
             </div>
 
-    </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-primary mb-2" name="simpan">Tambah Data</button>
+            </div>
+        </form>
 
-    <div class="table-responsive mt-5">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>No.</th>  
-                    <th>Nama</th>  
-                    <th>Aksi</th>  
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                    if($jumlahKategori == 0) {
-                ?>
-                    <tr>
-                        <td colspan=3 class="text-center">Data kategori tidak tersedia</td>
-                    </tr>
-                <?php
-                    } else {
-                        $jumlah = 1;
-                        while($data=mysqli_fetch_array($queryKategori)) {
-                ?>
-                        <tr>
-                            <td><?= $jumlah; ?></td>
-                            <td><?= $data['nama']; ?></td>
-                            <td>
-                                <a href="detail-kategori.php?id=<?= $data['id']; ?>"><button class="btn btn-info">Lihat Detail</button></a>
-                            </td>
-                        </tr>
-                <?php
-                        $jumlah++;
+        <?php
+            if(isset($_POST['simpan'])){
+                $nama = htmlspecialchars($_POST['nama']);
+                $kategori = htmlspecialchars($_POST['kategori']);
+                $harga = htmlspecialchars($_POST['harga']);
+                $detail = htmlspecialchars($_POST['detail']);
+                $ketersediaan_stok = htmlspecialchars($_POST['ketersediaan_stok']);
+
+                $target_dir = "../img/";
+                $nama_file = basename($_FILES["foto"]["name"]);
+                $target_file = $target_dir . $nama_file;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                $img_size = $_FILES["foto"]["size"];
+                $random_name = generateRandomString(20);
+                $new_name = $random_name . "." . $imageFileType;
+
+                if($nama=='' || $kategori=='' || $harga=='') {
+        ?>
+                <div class="alert alert-warning mt-2" role="alert">
+                        Nama, Kategori dan Harga Wajib Diisi
+                </div>
+        <?php
+                } else {
+                    if($nama_file!='') {
+                        if($img_size > 500000) {
+        ?>
+                <div class="alert alert-warning mt-2" role="alert">
+                        File tidak boleh lebih dari 500kb
+                </div>
+        <?php
+                        } else {
+                            if($imageFileType != 'jpg' && $imageFileType != 'png' && $imageFileType != 'jpeg') {
+        ?>
+                <div class="alert alert-warning mt-2" role="alert">
+                        File wajib bertipe JPG, PNG, JPEG
+                </div>
+        <?php
+                            } else {
+                                move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $new_name);
+                            }
                         }
                     }
-                ?>
-            </tbody>
-        </table>
+
+                    // query insert to produk table
+                    $queryTambah = mysqli_query($conn, "INSERT INTO produk (kategori_id, nama, harga, foto, detail, ketersediaan_stok) VALUES ('$kategori', '$nama', '$harga', '$new_name', '$detail', '$ketersediaan_stok' )");
+
+                    if($queryTambah) {
+        ?>
+                    <div class="alert alert-success mb-2" role="alert">
+                        Produk Berhasil Ditambahkan
+                    </div>
+
+                    <meta http-equiv="refresh" content="2; url=produk.php" />
+        <?php
+                    } else {
+                        echo mysqli_error($conn);
+                    }
+                }
+            }
+        ?>
+
     </div>
+    </div>
+    
+
     
 
 

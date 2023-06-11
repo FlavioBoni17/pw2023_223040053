@@ -1,11 +1,9 @@
 <?php 
     require "session.php";
     require "../koneksi.php";
+    require "../functions.php";
 
-    $id = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT * FROM kategori WHERE  id='$id'");
-$data = mysqli_fetch_array($query);
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +11,7 @@ $data = mysqli_fetch_array($query);
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pharmacy | Edit Kategori</title>
+    <title>Pharmacy | Tambah Kategori</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -39,10 +37,6 @@ $data = mysqli_fetch_array($query);
     <script nonce="6e9e8c8a-b2f4-4e30-8dea-4553623bad89">(function(w,d){!function(Y,Z,_,ba){Y[_]=Y[_]||{};Y[_].executed=[];Y.zaraz={deferred:[],listeners:[]};Y.zaraz.q=[];Y.zaraz._f=function(bb){return function(){var bc=Array.prototype.slice.call(arguments);Y.zaraz.q.push({m:bb,a:bc})}};for(const bd of["track","set","debug"])Y.zaraz[bd]=Y.zaraz._f(bd);Y.zaraz.init=()=>{var be=Z.getElementsByTagName(ba)[0],bf=Z.createElement(ba),bg=Z.getElementsByTagName("title")[0];bg&&(Y[_].t=Z.getElementsByTagName("title")[0].text);Y[_].x=Math.random();Y[_].w=Y.screen.width;Y[_].h=Y.screen.height;Y[_].j=Y.innerHeight;Y[_].e=Y.innerWidth;Y[_].l=Y.location.href;Y[_].r=Z.referrer;Y[_].k=Y.screen.colorDepth;Y[_].n=Z.characterSet;Y[_].o=(new Date).getTimezoneOffset();if(Y.dataLayer)for(const bk of Object.entries(Object.entries(dataLayer).reduce(((bl,bm)=>({...bl[1],...bm[1]})),{})))zaraz.set(bk[0],bk[1],{scope:"page"});Y[_].q=[];for(;Y.zaraz.q.length;){const bn=Y.zaraz.q.shift();Y[_].q.push(bn)}bf.defer=!0;for(const bo of[localStorage,sessionStorage])Object.keys(bo||{}).filter((bq=>bq.startsWith("_zaraz_"))).forEach((bp=>{try{Y[_]["z_"+bp.slice(7)]=JSON.parse(bo.getItem(bp))}catch{Y[_]["z_"+bp.slice(7)]=bo.getItem(bp)}}));bf.referrerPolicy="origin";bf.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(Y[_])));be.parentNode.insertBefore(bf,be)};["complete","interactive"].includes(Z.readyState)?zaraz.init():Y.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document);</script></head>
     <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-    <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-    </div>
 
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
@@ -123,7 +117,7 @@ $data = mysqli_fetch_array($query);
     <div class="container-fluid">
     <div class="row mb-2">
     <div class="col-sm-6">
-    <h1 class="m-0">Edit Kategori</h1>
+    <h1 class="m-0">Tambah Kategori</h1>
     </div>
 
     <div class="col-sm-6">
@@ -134,7 +128,7 @@ $data = mysqli_fetch_array($query);
             </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Edit Kategori
+                Tambah Kategori
             </li>
         </ol>
     </div>
@@ -142,44 +136,40 @@ $data = mysqli_fetch_array($query);
     </div>
     </div>
 
-    <div class="container">
-    <div class="col-12 col-md-6">
+    <div class="my-2 col-12 col-md-6">
+
         <form action="" method="post">
             <div>
-                <label for="kategori">Kategori</label>
-                <input type="text" name="kategori" id="kategori" class="form-control" value="<?= $data['nama']; ?>">
+                <label for="kategori" class="ml-2">Kategori </label>
+                <input type="text" id="kategori" name="kategori" placeholder="Input Nama Kategori" class="form-control">
             </div>
-
             <div class="mt-2">
-                <button type="submit" class="btn btn-primary" name="editBtn">Edit</button>
+                <button type="submit" class="btn btn-primary mb-2" name="tambah_kategori">Tambah Data</button>
             </div>
         </form>
-        
-        <?php
-            if(isset($_POST['editBtn'])){
+
+
+
+    <?php
+            if(isset($_POST['tambah_kategori'])) {
                 $kategori = htmlspecialchars($_POST['kategori']);
 
-                if($data['nama']==$kategori) {
-                    ?>
-                        <meta http-equiv="refresh" content="0; url=kategori.php" />
-                    <?php
+                $cek = mysqli_query($conn, "SELECT nama FROM kategori WHERE nama='$kategori' ");
+                $jumlahDataKategoriBaru = mysqli_num_rows($cek);
+                
+                if($jumlahDataKategoriBaru > 0) {
+                ?>
+                    <div class="alert alert-warning mt-2" role="alert">
+                        Kategori Sudah Ada
+                    </div>
+                <?php
                 } else {
-                    $query = mysqli_query($conn, "SELECT * FROM kategori WHERE nama='$kategori'");
-                    $jumlahData = mysqli_num_rows($query);
-                    
-                    if($jumlahData > 0) {
-                        ?>
-                        <div class="alert alert-warning mt-2" role="alert">
-                            Kategori Sudah Ada
-                        </div>
-                        <?php
-                    } else {
-                        $queryTambah = mysqli_query($conn, "UPDATE kategori SET nama='$kategori' WHERE id='$id' ");
+                    $queryTambah = mysqli_query($conn, "INSERT INTO kategori (nama) VALUES ('$kategori')");
 
-                        if($queryTambah) {
+                    if($queryTambah) {
                 ?>
                     <div class="alert alert-success mt-2" role="alert">
-                        Kategori Berhasil Terupdate
+                        Kategori Berhasil Ditambahkan
                     </div>
 
                     <meta http-equiv="refresh" content="2; url=kategori.php" />
@@ -187,19 +177,12 @@ $data = mysqli_fetch_array($query);
                     } else {
                         echo mysqli_error($conn);
                     }
-                    }
                 }
             }
         ?>
-    </div>
-    </div>
-    
-
-    
-
 
     </div>
-
+    </div>
     <footer class="main-footer">
     <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</strong>
     All rights reserved.

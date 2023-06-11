@@ -23,10 +23,15 @@ require "../koneksi.php";
         box-sizing: border-box;
         border-radius: 10px;
     }
+
+    body {
+        background-image: url(../img/n.jpg);
+    }
 </style>
 <body>
     <div class="main d-flex flex-column justify-content-center align-items-center">
         <div class="login-box p-5 shadow">
+            <h3 class="d-flex justify-content-center">Silahkan Masuk</h3>
             <form action="" method="post">
                 <div>
                     <label for="username">Username</label>
@@ -39,6 +44,7 @@ require "../koneksi.php";
                 <div>
                     <button class="btn btn-success form-control mt-3" type="submit" name="loginbtn">Login</button>
                 </div>
+                <a href="register.php">Belum punya akun ? Daftar Sekarang</a>
             </form>
         </div>
 

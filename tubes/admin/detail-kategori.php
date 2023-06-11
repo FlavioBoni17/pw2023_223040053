@@ -1,18 +1,19 @@
 <?php 
-require "session.php";
-require "../koneksi.php";
-require "../functions.php";
+    require "session.php";
+    require "../koneksi.php";
 
-$queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
-$jumlahKategori = mysqli_num_rows($queryKategori);
+    $id = $_GET['id'];
+
+$query = mysqli_query($conn, "SELECT * FROM kategori WHERE  id='$id'");
+$data = mysqli_fetch_array($query);
 ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pharmacy | Kategori</title>
+    <title>Pharmacy | Detail Kategori</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -38,10 +39,6 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <script nonce="6e9e8c8a-b2f4-4e30-8dea-4553623bad89">(function(w,d){!function(Y,Z,_,ba){Y[_]=Y[_]||{};Y[_].executed=[];Y.zaraz={deferred:[],listeners:[]};Y.zaraz.q=[];Y.zaraz._f=function(bb){return function(){var bc=Array.prototype.slice.call(arguments);Y.zaraz.q.push({m:bb,a:bc})}};for(const bd of["track","set","debug"])Y.zaraz[bd]=Y.zaraz._f(bd);Y.zaraz.init=()=>{var be=Z.getElementsByTagName(ba)[0],bf=Z.createElement(ba),bg=Z.getElementsByTagName("title")[0];bg&&(Y[_].t=Z.getElementsByTagName("title")[0].text);Y[_].x=Math.random();Y[_].w=Y.screen.width;Y[_].h=Y.screen.height;Y[_].j=Y.innerHeight;Y[_].e=Y.innerWidth;Y[_].l=Y.location.href;Y[_].r=Z.referrer;Y[_].k=Y.screen.colorDepth;Y[_].n=Z.characterSet;Y[_].o=(new Date).getTimezoneOffset();if(Y.dataLayer)for(const bk of Object.entries(Object.entries(dataLayer).reduce(((bl,bm)=>({...bl[1],...bm[1]})),{})))zaraz.set(bk[0],bk[1],{scope:"page"});Y[_].q=[];for(;Y.zaraz.q.length;){const bn=Y.zaraz.q.shift();Y[_].q.push(bn)}bf.defer=!0;for(const bo of[localStorage,sessionStorage])Object.keys(bo||{}).filter((bq=>bq.startsWith("_zaraz_"))).forEach((bp=>{try{Y[_]["z_"+bp.slice(7)]=JSON.parse(bo.getItem(bp))}catch{Y[_]["z_"+bp.slice(7)]=bo.getItem(bp)}}));bf.referrerPolicy="origin";bf.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(Y[_])));be.parentNode.insertBefore(bf,be)};["complete","interactive"].includes(Z.readyState)?zaraz.init():Y.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document);</script></head>
     <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-    <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-    </div>
 
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
@@ -122,70 +119,107 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <div class="container-fluid">
     <div class="row mb-2">
     <div class="col-sm-6">
-    <h1 class="m-0">Halaman Kategori</h1>
+    <h1 class="m-0">Detail Kategori</h1>
     </div>
 
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active" aria-current="page">
-                <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
-                    Home
-                </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Kategori
-                </li>
-            </ol>
+            <li class="breadcrumb-item active" aria-current="page">
+            <a href="index.php" class="no-decoration text-muted"><i class="fas fa-home"></i> 
+                Home
+            </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Detail Kategori
+            </li>
+        </ol>
     </div>
     </div>
     </div>
     </div>
 
-    <div class="my-2 col-12 col-md-6">
-        <h2  class="ml-2">List Kategori</h2>
-
-            <div class="mt-2">
-            <a href="tambah-kategori.php"><button class="btn btn-primary ml-2">Tambah Data</button></a>
+    <div class="container">
+    <div class="col-12 col-md-6">
+        <form action="" method="post">
+            <div>
+                <label for="kategori">Kategori</label>
+                <input type="text" name="kategori" id="kategori" class="form-control" value="<?= $data['nama']; ?>">
             </div>
 
-    </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-primary" name="editBtn">Edit</button>
+                <button type="submit" class="btn btn-danger" name="deleteBtn">Delete</button>
+            </div>
+        </form>
+        
+        <?php
+            if(isset($_POST['editBtn'])){
+                $kategori = htmlspecialchars($_POST['kategori']);
 
-    <div class="table-responsive mt-5">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>No.</th>  
-                    <th>Nama</th>  
-                    <th>Aksi</th>  
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                    if($jumlahKategori == 0) {
+                if($data['nama']==$kategori) {
+                    ?>
+                        <meta http-equiv="refresh" content="0; url=kategori.php" />
+                    <?php
+                } else {
+                    $query = mysqli_query($conn, "SELECT * FROM kategori WHERE nama='$kategori'");
+                    $jumlahData = mysqli_num_rows($query);
+                    
+                    if($jumlahData > 0) {
+                        ?>
+                        <div class="alert alert-warning mt-2" role="alert">
+                            Kategori Sudah Ada
+                        </div>
+                        <?php
+                    } else {
+                        $queryTambah = mysqli_query($conn, "UPDATE kategori SET nama='$kategori' WHERE id='$id' ");
+
+                        if($queryTambah) {
                 ?>
-                    <tr>
-                        <td colspan=3 class="text-center">Data kategori tidak tersedia</td>
-                    </tr>
+                    <div class="alert alert-success mt-2" role="alert">
+                        Kategori Berhasil Terupdate
+                    </div>
+
+                    <meta http-equiv="refresh" content="2; url=kategori.php" />
                 <?php
                     } else {
-                        $jumlah = 1;
-                        while($data=mysqli_fetch_array($queryKategori)) {
-                ?>
-                        <tr>
-                            <td><?= $jumlah; ?></td>
-                            <td><?= $data['nama']; ?></td>
-                            <td>
-                                <a href="detail-kategori.php?id=<?= $data['id']; ?>"><button class="btn btn-info">Lihat Detail</button></a>
-                            </td>
-                        </tr>
-                <?php
-                        $jumlah++;
-                        }
+                        echo mysqli_error($conn);
                     }
-                ?>
-            </tbody>
-        </table>
+                    }
+                }
+            }
+
+            if(isset($_POST['deleteBtn'])) {
+                $queryCheck = mysqli_query($conn, "SELECT * FROM produk WHERE kategori_id='$id'");
+                $dataCount = mysqli_num_rows($queryCheck);
+
+                if($dataCount > 0) {
+            ?>
+                <div class="alert alert-warning mt-2" role="alert">
+                        Kategori tidak bisa dihapus karena sudah digunakan di produk
+                </div>
+            <?php
+            die();
+                }
+
+                $queryDelete = mysqli_query($conn, "DELETE FROM kategori WHERE id='$id' ");
+
+                if($queryDelete) {
+            ?>
+                <div class="alert alert-success mt-2" role="alert">
+                        Kategori Berhasil Terhapus
+                </div>
+
+                <meta http-equiv="refresh" content="2; url=kategori.php" />
+            <?php
+                } else {
+                    echo mysqli_error($conn);
+                }
+            }
+        ?>
     </div>
+    </div>
+    
+
     
 
 

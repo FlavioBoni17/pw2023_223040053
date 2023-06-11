@@ -1,10 +1,10 @@
 <?php 
 require "session.php";
 require "../koneksi.php";
-require "../functions.php";
 
-$queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
-$jumlahKategori = mysqli_num_rows($queryKategori);
+// variabel query memakai join
+$query = mysqli_query($conn, "SELECT a.*, b.nama AS nama_kategori FROM produk a JOIN kategori b ON a.kategori_id=b.id");
+$jumlahProduk = mysqli_num_rows($query);
 ?>
 
     <!DOCTYPE html>
@@ -122,7 +122,7 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     <div class="container-fluid">
     <div class="row mb-2">
     <div class="col-sm-6">
-    <h1 class="m-0">Halaman Kategori</h1>
+    <h1 class="m-0">Halaman Produk</h1>
     </div>
 
     <div class="col-sm-6">
@@ -133,7 +133,7 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
                 </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Kategori
+                    Produk
                 </li>
             </ol>
     </div>
@@ -142,40 +142,41 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     </div>
 
     <div class="my-2 col-12 col-md-6">
-        <h2  class="ml-2">List Kategori</h2>
-
-            <div class="mt-2">
-            <a href="tambah-kategori.php"><button class="btn btn-primary ml-2">Tambah Data</button></a>
-            </div>
-
+        <h2 class="ml-2">List Produk</h2>
+        <a href="tambah-produk.php"><button class="btn btn-primary ml-2">Tambah Data Produk</button></a>
     </div>
-
-    <div class="table-responsive mt-5">
-        <table class="table">
+        <div class="table-responsive mt-5">
+            <table class="table">
             <thead>
                 <tr>
                     <th>No.</th>  
                     <th>Nama</th>  
-                    <th>Aksi</th>  
+                    <th>Kategori</th>  
+                    <th>Harga</th>  
+                    <th>Ketersediaan Stok</th>  
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
-                    if($jumlahKategori == 0) {
+                    if($jumlahProduk==0) {
                 ?>
                     <tr>
-                        <td colspan=3 class="text-center">Data kategori tidak tersedia</td>
+                        <td colspan=6 class="text-center">Data Produk tidak tersedia</td>
                     </tr>
                 <?php
                     } else {
                         $jumlah = 1;
-                        while($data=mysqli_fetch_array($queryKategori)) {
+                        while($data=mysqli_fetch_array($query)) {
                 ?>
                         <tr>
                             <td><?= $jumlah; ?></td>
                             <td><?= $data['nama']; ?></td>
+                            <td><?= $data['nama_kategori']; ?></td>
+                            <td><?= $data['harga']; ?></td>
+                            <td><?= $data['ketersediaan_stok']; ?></td>
                             <td>
-                                <a href="detail-kategori.php?id=<?= $data['id']; ?>"><button class="btn btn-info">Lihat Detail</button></a>
+                                <a href="detail-produk.php?id=<?= $data['id']; ?>"><button class="btn btn-info">Lihat Detail</button></a>
                             </td>
                         </tr>
                 <?php
@@ -184,8 +185,8 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
                     }
                 ?>
             </tbody>
-        </table>
-    </div>
+            </table>
+        </div>
     
 
 
