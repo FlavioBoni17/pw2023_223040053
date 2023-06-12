@@ -147,6 +147,12 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
             <div class="mt-2">
             <a href="tambah-kategori.php"><button class="btn btn-primary ml-2">Tambah Data</button></a>
             </div>
+                <form action="" method="get">
+                <div class="input-group my-3 ml-2">
+                <input type="text" id="keyword" name="keyword" placeholder="Search" autofocus autocomplete="off">
+                <button class="btn btn-primary" type="submit" name="search" id="search-button">Searcrh</button>
+                </div>
+                </form>
 
     </div>
 
@@ -192,7 +198,7 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
     </div>
 
     <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="../admin/index.php">Pharmacy</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
     <b>Flavio</b> Boni

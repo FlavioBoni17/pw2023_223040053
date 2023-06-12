@@ -184,7 +184,7 @@
     </div>
 
     <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="../admin/index.php">Pharmacy</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
     <b>Flavio</b> Boni

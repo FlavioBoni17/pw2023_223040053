@@ -244,8 +244,7 @@ $queryKategori = mysqli_query($conn, "SELECT * FROM kategori WHERE id!='$data[ka
             <?php
                                 } else {
                                     move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $new_name);
-
-                                    $queryUpdate = mysqli_query($conn, "UPDATE produk SET foto='$new_name' WHERE id=$id ");
+                                    $queryUpdate = mysqli_query($conn, "UPDATE produk SET foto='$new_name' WHERE id='$id' ");
 
                                     if($queryUpdate) {
             ?>

@@ -145,6 +145,12 @@ $jumlahProduk = mysqli_num_rows($query);
         <h2 class="ml-2">List Produk</h2>
         <a href="tambah-produk.php"><button class="btn btn-primary ml-2">Tambah Data Produk</button></a>
     </div>
+    <form action="" method="get">
+    <div class="input-group my-3 ml-3">
+    <input type="text" id="keyword" name="keyword" placeholder="Search" autofocus autocomplete="off">
+    <button class="btn btn-primary" type="submit" name="search" id="search-button">Searcrh</button>
+    </div>
+    </form>
         <div class="table-responsive mt-5">
             <table class="table">
             <thead>
@@ -193,7 +199,7 @@ $jumlahProduk = mysqli_num_rows($query);
     </div>
 
     <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Pharmacy</a>.</strong>
+    <strong>Copyright &copy; 2023 <a href="../admin/index.php">Pharmacy</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
     <b>Flavio</b> Boni
