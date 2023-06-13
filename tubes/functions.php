@@ -44,7 +44,7 @@ if (mysqli_fetch_assoc($result)) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // tambahkan user baru ke database
-    mysqli_query($conn, "INSERT INTO user VALUES ('1', '$username', '$password')");
+    mysqli_query($conn, "INSERT INTO user VALUES (null, '$username', '$password')");
 
     return mysqli_affected_rows($conn);
 }
